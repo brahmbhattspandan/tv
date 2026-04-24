@@ -1,5 +1,11 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# database
+scanner.db
+scanner.db-wal
+scanner.db-shm
+.server.pid
+
 # dependencies
 /node_modules
 /.pnp
@@ -39,3 +45,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI agent / prompt files
+CLAUDE.md
+AGENTS.md
+README.md
+.claude*
+.copilot*
+.cursor*
+.github/copilot-instructions.md
