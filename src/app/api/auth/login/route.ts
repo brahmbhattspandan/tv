@@ -15,6 +15,13 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  if (password.length > 72) {
+    return NextResponse.json(
+      { error: "Invalid email or password" },
+      { status: 401 }
+    );
+  }
+
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     return NextResponse.json(

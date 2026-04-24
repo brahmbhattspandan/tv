@@ -23,6 +23,14 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  if (!dateRegex.test(fromDate)) {
+    return NextResponse.json(
+      { error: "fromDate must be in YYYY-MM-DD format" },
+      { status: 400 }
+    );
+  }
+
   const session = await getSession();
   const userId = session?.userId ?? null;
   const userCond = userId ? eq(dailyEntries.userId, userId) : isNull(dailyEntries.userId);

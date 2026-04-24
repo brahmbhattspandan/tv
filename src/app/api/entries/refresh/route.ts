@@ -12,6 +12,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "date is required" }, { status: 400 });
   }
 
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  if (!dateRegex.test(date)) {
+    return NextResponse.json({ error: "date must be in YYYY-MM-DD format" }, { status: 400 });
+  }
+
   const session = await getSession();
   const userId = session?.userId ?? null;
   const userCond = userId ? eq(dailyEntries.userId, userId) : isNull(dailyEntries.userId);

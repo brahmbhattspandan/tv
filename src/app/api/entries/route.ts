@@ -15,6 +15,11 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "date param required" }, { status: 400 });
   }
 
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  if (!dateRegex.test(date)) {
+    return NextResponse.json({ error: "date must be in YYYY-MM-DD format" }, { status: 400 });
+  }
+
   const session = await getSession();
   const userId = session?.userId ?? null;
 
@@ -34,6 +39,29 @@ export async function POST(request: NextRequest) {
   if (!symbol || !date || price === undefined || !crossing) {
     return NextResponse.json(
       { error: "symbol, date, price, and crossing are required" },
+      { status: 400 }
+    );
+  }
+
+  if (crossing !== "above" && crossing !== "below") {
+    return NextResponse.json(
+      { error: "crossing must be 'above' or 'below'" },
+      { status: 400 }
+    );
+  }
+
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  if (!dateRegex.test(date)) {
+    return NextResponse.json(
+      { error: "date must be in YYYY-MM-DD format" },
+      { status: 400 }
+    );
+  }
+
+  const symbolRegex = /^[A-Za-z0-9.^=-]{1,20}$/;
+  if (!symbolRegex.test(symbol)) {
+    return NextResponse.json(
+      { error: "Invalid symbol format" },
       { status: 400 }
     );
   }
